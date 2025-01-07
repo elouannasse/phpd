@@ -10,15 +10,31 @@
     private $link ;
 
     public function __construct($link){
-        $this->link=$link ;
-
+      $this->link=$link ;
+       
     }
-    public function create($nom, $message, $horodatage ){
-        $sql = "INSERT into commentaires values(null, :nom, :message, :horodatage)";
+    public function create($nom, $message){
+        $sql = "INSERT into commentaires values(:id, :nom, :message, :horodatage);";
         $stmt = $this->link->prepare($sql);
-        $stmt->execute(["nom" => $nom, "message" => $message, "horodatage" => $horodatage]);
-        return true;
+        $stmt->execute(["id" => null, ":nom" => $nom, ":message" => $message, "horodatage" => "now()"]);
+        return true; 
         }
+        public function read(){
+          $sql = "select * from commentaires";
+          $stmt = $this->link->prepare($sql);
+          $stmt->execute();
+          $result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+          return $result;
+          }
 
 
   }
+
+
+  $coment = new commentaire ($link);
+
+  // $coment->create("ahmed", "hello");
+
+
+
+

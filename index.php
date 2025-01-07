@@ -4,18 +4,16 @@
    require "config.php" ; 
 
 
+   $dd = new commentaire($link);
 
    if(isset($_POST['submit'])){
     $nom = $_POST['name'] ;
     $message = $_POST['message'] ;
-   
-
-
-
-
+   $dd->create($nom,$message);
 
    }
    
+   $toutCommentaire = $dd->read();
 
    ?>
    
@@ -30,7 +28,7 @@
 </head>
 <body>
     <h1>Soumettre un Commentaire</h1>
-    <form action="submit_feedback.php" method="POST">
+    <form action="" method="POST">
         <label for="name">Nom :</label>
         <input type="text" name="name" id="name" required><br><br>
 
@@ -39,6 +37,22 @@
 
         <input type="submit" value="Envoyer le commentaire" name = "submit">
     </form>
+
+            <table border>
+        <tr>
+            <th>nome</th>
+            <th>message</th>
+            <th>hrodatage</th>
+        </tr>
+
+        <?php foreach ($toutCommentaire as $comment):?>
+        <tr>
+            <td><?= $comment["nom"]; ?></td>
+            <td><?= $comment["message"] ?></td>
+            <td><?= $comment["horodatage"] ?></td>
+        </tr>
+       <?php endforeach; ?>
+        </table>
 </body>
 </html>
 
